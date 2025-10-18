@@ -14,24 +14,7 @@ class TestAddTask(unittest.TestCase):
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-        def test_add_task_with_null_name(self):
+    def test_add_task_with_null_name(self):
         tasks = []
         with self.assertRaises(ValueError):
             add_task("", tasks)
