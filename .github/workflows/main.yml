@@ -1,23 +1,58 @@
-name: Python Tests
+# اسم مسار العمل (Workflow) الذي سيظهر في واجهة GitHub
+name: Python CI Pipeline
 
-on: [push, pull_request]
+# تحديد متى يجب تشغيل مسار العمل
+on:
+  push:
+    branches: [ main, develop ]
+  pull_request:
+    branches: [ main, develop ]
 
+# تحديد المهام التي سيتم تشغيلها
 jobs:
-  test:
+  build_and_test:
+    # تحديد بيئة التشغيل (سنستخدم أحدث إصدار من Ubuntu)
     runs-on: ubuntu-latest
 
+    # تحديد مصفوفة لاختبار إصدارات Python متعددة
+    strategy:
+      matrix:
+        python-version: [ '3.11' ] # سنختبر على إصدار واحد حاليًا لتبسيط التشخيص
+
+    # خطوات تنفيذ المهمة
     steps:
-    - name: Checkout code
-      uses: actions/checkout@v3
+      # 1. سحب الكود من المستودع
+      - name: Checkout Code
+        uses: actions/checkout@v4
+      
+      # 2. إعداد بيئة Python
+      - name: Set up Python ${{ matrix.python-version }}
+        uses: actions/setup-python@v4
+        with:
+          python-version: ${{ matrix.python-version }}
 
-    - name: Set up Python
-      uses: actions/setup-python@v5
-      with:
-        python-version: '3.12'
+      # 3. تثبيت التبعيات وأدوات الاختبار
+      - name: Install Dependencies
+        run: |
+          # الترقية إلى أحدث إصدار من pip
+          python -m pip install --upgrade pip
+          
+          # تثبيت جميع التبعيات من ملف requirements.txt
+          # ملاحظة: تأكد أن هذا الملف موجود في جذر المشروع
+          if [ -f requirements.txt ]; then
+              pip install -r requirements.txt
+          fi
+          
+          # تثبيت Pytest بشكل مؤكد في حال لم يكن في requirements.txt
+          pip install pytest
 
-      #run: |
-        #pip install pytest
-
-    - name: Run tests
-      run: pytest -v
-
+      # 4. تشغيل الاختبارات
+      # ملاحظة: تأكد أن أمر pytest موجود في مخرجات الخطوة السابقة
+      - name: Run Pytest Tests
+        run: |
+          pytest
+          
+      # 5. (خطوة إضافية اختيارية) الإبلاغ عن نجاح المهمة
+      - name: Final Success Message
+        if: success()
+        run: echo "🎉 جميع الاختبارات ناجحة على Python ${{ matrix.python-version }}!"
