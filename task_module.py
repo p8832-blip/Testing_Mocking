@@ -44,3 +44,4 @@ if __name__ == "__main__":
             print(f"✓ Successfully added task: '{added_task['name']}'.")
         except ValueError as e:
             print(f"✗ Input error: {e}")
+            print("HHHHHH")
