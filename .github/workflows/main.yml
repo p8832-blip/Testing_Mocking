@@ -17,7 +17,7 @@ jobs:
     # تحديد مصفوفة لاختبار إصدارات Python متعددة
     strategy:
       matrix:
-        python-version: [ '3.11' ] # سنختبر على إصدار واحد حاليًا لتبسيط التشخيص
+        python-version: [ '3.11' ] # يمكن إضافة إصدارات أخرى لاحقًا
 
     # خطوات تنفيذ المهمة
     steps:
@@ -43,14 +43,14 @@ jobs:
               pip install -r requirements.txt
           fi
           
-          # تثبيت Pytest بشكل مؤكد في حال لم يكن في requirements.txt
+          # تثبيت Pytest بشكل مؤكد
           pip install pytest
 
       # 4. تشغيل الاختبارات
-      # ملاحظة: تأكد أن أمر pytest موجود في مخرجات الخطوة السابقة
+      # تم تعديل هذا السطر لتوجيه Pytest صراحة إلى مجلد tests/
       - name: Run Pytest Tests
         run: |
-          pytest
+          pytest tests/
           
       # 5. (خطوة إضافية اختيارية) الإبلاغ عن نجاح المهمة
       - name: Final Success Message
