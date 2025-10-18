@@ -31,6 +31,12 @@ jobs:
         with:
           python-version: ${{ matrix.python-version }}
 
+      # 2.5. إضافة جذر المشروع إلى PYTHONPATH (الحل للمشكلة الحالية)
+      - name: Set PYTHONPATH
+        run: |
+          # يضيف المسار الحالي (جذر المشروع) إلى متغير البيئة PYTHONPATH
+          echo "PYTHONPATH=$GITHUB_WORKSPACE" >> $GITHUB_ENV
+
       # 3. تثبيت التبعيات وأدوات الاختبار
       - name: Install Dependencies
         run: |
