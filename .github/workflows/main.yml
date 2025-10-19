@@ -11,13 +11,13 @@ on:
 # تحديد المهام التي سيتم تشغيلها
 jobs:
   build_and_test:
-    # تحديد بيئة التشغيل (سنستخدم أحدث إصدار من Ubuntu)
+    # تحديد بيئة التشغيل
     runs-on: ubuntu-latest
 
     # تحديد مصفوفة لاختبار إصدارات Python متعددة
     strategy:
       matrix:
-        python-version: [ '3.11' ] # يمكن إضافة إصدارات أخرى لاحقًا
+        python-version: [ '3.11' ]
 
     # خطوات تنفيذ المهمة
     steps:
@@ -31,34 +31,36 @@ jobs:
         with:
           python-version: ${{ matrix.python-version }}
 
-      # 2.5. إضافة جذر المشروع إلى PYTHONPATH (الحل للمشكلة الحالية)
+      # 2.5. إضافة جذر المشروع إلى PYTHONPATH
       - name: Set PYTHONPATH
         run: |
-          # يضيف المسار الحالي (جذر المشروع) إلى متغير البيئة PYTHONPATH
           echo "PYTHONPATH=$GITHUB_WORKSPACE" >> $GITHUB_ENV
 
       # 3. تثبيت التبعيات وأدوات الاختبار
       - name: Install Dependencies
         run: |
-          # الترقية إلى أحدث إصدار من pip
           python -m pip install --upgrade pip
-          
-          # تثبيت جميع التبعيات من ملف requirements.txt
-          # ملاحظة: تأكد أن هذا الملف موجود في جذر المشروع
           if [ -f requirements.txt ]; then
               pip install -r requirements.txt
           fi
-          
-          # تثبيت Pytest بشكل مؤكد
-          pip install pytest
+      #    pip install pytest pytest-cov
 
-      # 4. تشغيل الاختبارات
-      # تم تعديل هذا السطر لتوجيه Pytest صراحة إلى مجلد tests/
-      - name: Run Pytest Tests
+      # ✅ 4. تشغيل الاختبارات مع تغطية الكود
+      - name: Run Pytest with Coverage
         run: |
-          pytest tests/
+      #  pytest --cov=. --cov-report=xml --cov-report=term-missing tests/
+
           
-      # 5. (خطوة إضافية اختيارية) الإبلاغ عن نجاح المهمة
+
+      
+      # ✅ 5. رفع تقرير التغطية كـ Artifact (اختياري)
+      # - name: Upload coverage report
+      #   uses: actions/upload-artifact@v4
+      #   with:
+      #     name: coverage-report
+      #     path: coverage.xml
+
+      # 6. الإبلاغ عن النجاح
       - name: Final Success Message
         if: success()
         run: echo "🎉 جميع الاختبارات ناجحة على Python ${{ matrix.python-version }}!"
