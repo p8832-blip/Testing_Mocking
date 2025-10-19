@@ -1,12 +1,13 @@
 # task_module.py
 
 def add_task(task_name, task_list):
-    #if not task_name:
-        #raise ValueError("Task name is required")
+    if not task_name:
+        raise ValueError("Task name is required")
 
 
-    if any(task["name"] == task_name for task in task_list):
-        raise ValueError(f"Task with name '{task_name}' already exists.")
+    # if any(task["name"] == task_name for task in task_list):
+    #     raise ValueError(f"Task with name '{task_name}' already exists.")
+
 
     new_task = {
         "id": len(task_list) + 1,
