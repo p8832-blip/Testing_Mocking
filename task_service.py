@@ -3,7 +3,6 @@
 
 import sqlite3
 
-
 class RealDatabase:
     def __init__(self):
         # تعريف الجدول مع UNIQUE و COLLATE NOCASE لمنع التكرار بغض النظر عن حالة الحروف
@@ -17,10 +16,10 @@ class RealDatabase:
     def insert(self, task):
         # إدخال محمي: نحاول الإدخال ونحوّل IntegrityError إلى ValueError لرسالة أوضح
         try:
-            # self.cursor.execute(
-            #     "INSERT INTO tasks (name, completed) VALUES (?, ?)",
-            #     (task['name'], int(task['completed']))
-            # )
+            self.cursor.execute(
+                "INSERT INTO tasks (name, completed) VALUES (?, ?)",
+                (task['name'], int(task['completed']))
+            )
             self.conn.commit()
         except sqlite3.IntegrityError:
             # يحدث عندما يكون الاسم مكررًا طبقاً لقيد UNIQUE

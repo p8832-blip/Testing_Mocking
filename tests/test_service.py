@@ -9,13 +9,13 @@ class TestTaskServiceIntegration(unittest.TestCase):
         self.db = RealDatabase()
         self.service = TaskService(self.db)
 
-    # def test_create_task_persists_data(self):
-    #     task_name = "Finalize Integration Example"
-    #     self.service.create_task(task_name)
-    #     retrieved = self.db.find(task_name)
-    #     self.assertIsNotNone(retrieved, "Task should be persisted to DB")
-    #     self.assertEqual(retrieved[0], task_name)
-    #     self.assertEqual(retrieved[1], 0)
+    def test_create_task_persists_data(self):
+        task_name = "Finalize Integration Example"
+        self.service.create_task(task_name)
+        retrieved = self.db.find(task_name)
+        self.assertIsNotNone(retrieved, "Task should be persisted to DB")
+        self.assertEqual(retrieved[0], task_name)
+        self.assertEqual(retrieved[1], 0)
 
     def test_create_task_with_invalid_name_raises_error(self):
         # الاختبار يتوقع ValueError عند تمرير اسم فارغ

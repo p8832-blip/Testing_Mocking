@@ -13,19 +13,21 @@ class TestAddTask(unittest.TestCase):
 
 
 
+    def test_add_task_with_null_name(self):
+        tasks = []
+        with self.assertRaises(ValueError):
+            add_task("", tasks)
 
-    # def test_add_task_with_null_name(self):
-    #     tasks = []
-    #     with self.assertRaises(ValueError):
-    #         add_task("", tasks)
 
-    """
-        def test_add_duplicate_task(self):
+
+
+
+    def test_add_duplicate_task(self):
         tasks = []
         add_task("Study", tasks)
         with self.assertRaises(ValueError):
             add_task("Study", tasks)
-    """
+
 
 
 
