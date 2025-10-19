@@ -48,7 +48,8 @@ jobs:
       # ✅ 4. تشغيل الاختبارات مع تغطية الكود
       - name: Run Pytest with Coverage
         run: |
-          pytest --cov=اسم_مجلد_الكود --cov-report=xml --cov-report=term-missing tests/
+          pytest --cov=task --cov-report=xml --cov-report=term-missing tests/
+
       
       # ✅ 5. رفع تقرير التغطية كـ Artifact (اختياري)
       - name: Upload coverage report
