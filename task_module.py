@@ -1,8 +1,8 @@
 # task_module.py
 
 def add_task(task_name, task_list):
-    if not task_name:
-        raise ValueError("Task name is required")
+    # if not task_name:
+    #     raise ValueError("Task name is required")
 
 
     # if any(task["name"] == task_name for task in task_list):
@@ -42,6 +42,7 @@ if __name__ == "__main__":
 
         try:
             added_task = add_task(user_input, my_tasks)
-            print(f"✓ Successfully added task: '{added_task['name']}'.")
+            print(f"✓ Successfully added task:  '{added_task['name']}'.")
         except ValueError as e:
             print(f"✗ Input error: {e}")
+
